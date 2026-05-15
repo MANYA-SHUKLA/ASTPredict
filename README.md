@@ -1,6 +1,6 @@
 # Colony Detection (ASTpredict)
 
-This repository contains the setup and inference scripts for the Colony Detection project. It uses a trained YOLOv8 model to detect colonies in images, generating visual annotations and statistical metadata.
+This repository contains the setup and inference scripts for the Colony Detection project. It uses a trained model to detect colonies in images, generating visual annotations and statistical metadata.
 
 ## Project Structure
 
