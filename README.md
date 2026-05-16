@@ -1,4 +1,4 @@
-# Colony Detection (ASTpredict)
+# Colony Detection (ASTPredict)
 
 This repository contains the setup and inference scripts for the Colony Detection. It uses a trained model to detect colonies in images, generating visual annotations and statistical metadata.
 
