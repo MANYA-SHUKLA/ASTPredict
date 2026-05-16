@@ -33,7 +33,7 @@ chmod +x setup.sh
 
 The `inference.py` script allows you to process either a full directory of images or a single image. It will output annotated images with bounding boxes and a `predictions.json` file containing all the statistical data (bounding box coordinates, confidence scores, etc.).
 
-### Basic Usage (Batch Processing)
+### Basic Usage (Batch Processing)(Use python3)
 If you want to run the inference on sample images in `./test_images` directory, simply run:
 ```bash
 python3 inference.py
