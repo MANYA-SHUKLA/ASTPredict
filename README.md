@@ -1,6 +1,6 @@
-# Colony Detection (ASTpredict)
+# Colony Detection (ASTPredict)
 
-This repository contains the setup and inference scripts for the Colony Detection project. It uses a trained YOLOv8 model to detect colonies in images, generating visual annotations and statistical metadata.
+This repository contains the setup and inference scripts for the Colony Detection. It uses a trained model to detect colonies in images, generating visual annotations and statistical metadata.
 
 ## Project Structure
 
@@ -62,4 +62,31 @@ python3 inference.py -i /path/to/image.jpg -c 0.5
 ## 3. Viewing Results
 After inference is complete, check the `./Results` folder.
 - **`Results/images/`**: Contains copies of your images drawn with bounding boxes and confidence scores.
-- **`Results/predictions/predictions.json`**: Contains detailed JSON output of every detection (class, confidence, and normalized/pixel bounding box coordinates) for downstream analysis.
+- **`Results/predictions/predictions.json`**: Contains detailed JSON output of every detection (class, confidence, and normalized/pixel bounding box coordinates).
+## 4. Class - Species Table
+| **Class** | **Bacteria Species** |
+| :--- | :--- |
+| **class0** | _Actinobacillus equuli_ |
+| **class1** | _Actinobacillus pleuropneumoniae_ |
+| **class2** | _Aeromonas hydrophila_ |
+| **class3** | _Bacillus cereus_ |
+| **class4** | _Bibersteinia trehalosi_ |
+| **class5** | _Bordetella bronchiseptica_ |
+| **class6** | _Brucella ovis_ |
+| **class7** | _Clostridium perfringens_ |
+| **class8** | _Corynebacterium pseudotuberculosis_ |
+| **class9** | _Erysipelothrix rhusiopathiae_ |
+| **class10** | _Escherichia coli_ |
+| **class11** | _Glaesserella parasuis_ |
+| **class12** | _Klebsiella pneumoniae_ |
+| **class13** | _Listeria monocytogenes_ |
+| **class14** | _Paenibacillus larvae_ |
+| **class15** | _Pasteurella multocida_ |
+| **class16** | _Proteus mirabilis_ |
+| **class17** | _Pseudomonas aeruginosa_ |
+| **class18** | _Rhodococcus equi_ |
+| **class19** | _Salmonella enterica_ |
+| **class20** | _Staphylococcus aureus_ |
+| **class21** | _Staphylococcus hyicus_ |
+| **class22** | _Streptococcus agalactiae_ |
+| **class23** | _Trueperella pyogenes_ |
