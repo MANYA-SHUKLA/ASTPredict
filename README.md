@@ -36,25 +36,25 @@ The `inference.py` script allows you to process either a full directory of image
 ### Basic Usage (Batch Processing)
 If you want to run the inference on sample images in `./test_images` directory, simply run:
 ```bash
-python inference.py
+python3 inference.py
 ```
 
 ### Custom Input Directory
 To run batch inference on a specific folder of images:
 ```bash
-python inference.py -i /path/to/your/custom_directory/
+python3 inference.py -i /path/to/your/custom_directory/
 ```
 
 ### Single Image Processing
 To run inference on just one specific image:
 ```bash
-python inference.py -i /path/to/image.jpg
+python3 inference.py -i /path/to/image.jpg
 ```
 
 ### Adjusting Confidence Threshold
 By default, the script only considers detections with a confidence score of **0.25** or higher. You can adjust this using the `-c` or `--conf` flag. For example, to require a 50% confidence:
 ```bash
-python inference.py -i /path/to/image.jpg -c 0.5
+python3 inference.py -i /path/to/image.jpg -c 0.5
 ```
 
 ---
