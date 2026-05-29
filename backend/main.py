@@ -5,7 +5,6 @@ import tempfile
 import os
 import shutil
 from ultralytics import YOLO
-
 app = FastAPI(title="ASTPredict API", version="1.0.0")
 
 app.add_middleware(
