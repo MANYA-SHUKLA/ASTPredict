@@ -181,6 +181,7 @@ export default function App() {
       </LinearGradient>
 
       {/* ── HOME SCREEN ── */}
+      <View style={styles.content}>
       {screen === "home" && (
         <ScrollView contentContainerStyle={styles.homeScroll} showsVerticalScrollIndicator={false}>
 
@@ -390,6 +391,13 @@ export default function App() {
           )}
         </ScrollView>
       )}
+      </View>
+
+      <View style={styles.footer}>
+        <Text style={styles.footerText}>
+          Made with <Text style={styles.footerHeart}>♥</Text> by MANYA SHUKLA · 2026 · SOE JNU
+        </Text>
+      </View>
     </SafeAreaView>
   );
 }
@@ -407,6 +415,7 @@ function Chip({ icon, label, sub }) {
 // ─── STYLES ─────────────────────────────────────────────────────────────────
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: "#f0f4ff" },
+  content: { flex: 1 },
 
   // Header
   header: { paddingTop: Platform.OS === "android" ? 36 : 0 },
@@ -650,4 +659,21 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   btnResetText: { color: "#1e40af", fontSize: 15, fontWeight: "700" },
+
+  footer: {
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderTopWidth: 1,
+    borderTopColor: "#dbeafe",
+    backgroundColor: "#fff",
+    alignItems: "center",
+  },
+  footerText: {
+    fontSize: 11,
+    color: "#64748b",
+    fontWeight: "600",
+    letterSpacing: 0.3,
+    textAlign: "center",
+  },
+  footerHeart: { color: "#dc2626", fontSize: 12 },
 });
