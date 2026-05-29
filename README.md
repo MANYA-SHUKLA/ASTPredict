@@ -122,7 +122,7 @@ chmod +x setup.sh
 ### 2. Start the backend
 
 ```bash
-python3 -m uvicorn backend.main:app --reload --port 8000
+python3 -m uvicorn backend.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
 Verify: open `http://localhost:8000/health` — should return `{"status": "healthy"}`.
@@ -137,7 +137,7 @@ npx expo start --clear
 
 Press `i` for iOS simulator, `a` for Android, or scan the QR code with Expo Go.
 
-> **Physical device:** `API_URL` in `mobile/App.js` defaults to `http://localhost:8000`. On a real phone, change it to your computer's LAN IP (e.g. `http://10.106.7.216:8000`) so the device can reach the backend.
+> **Physical device:** The app auto-detects your computer's IP from the Expo dev server. Ensure the backend is started with `--host 0.0.0.0` and that your phone is on the same Wi‑Fi network.
 
 ---
 

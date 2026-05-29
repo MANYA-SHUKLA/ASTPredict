@@ -14,10 +14,23 @@ import {
   Dimensions,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
+import Constants from "expo-constants";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const API_URL = "http://localhost:8000";
+function getApiUrl() {
+  const hostUri = Constants.expoConfig?.hostUri;
+  if (hostUri) return `http://${hostUri.split(":")[0]}:8000`;
+
+  const link = Constants.linkingUri || Constants.experienceUrl || "";
+  const match = link.match(/^[^:]+:\/\/([^:/]+)/);
+  if (match?.[1]) return `http://${match[1]}:8000`;
+
+  if (Platform.OS === "android") return "http://10.0.2.2:8000";
+  return "http://localhost:8000";
+}
+
+const API_URL = getApiUrl();
 const { width } = Dimensions.get("window");
 
 // ─── Animated fade+slide wrapper ───────────────────────────────────────────
@@ -122,7 +135,10 @@ export default function App() {
       if (!res.ok) throw new Error("Server error");
       setResult(await res.json());
     } catch {
-      Alert.alert("Connection Error", "Could not reach the server.\n\nMake sure the backend is running:\n\npython3 -m uvicorn backend.main:app --port 8000");
+      Alert.alert(
+        "Connection Error",
+        `Could not reach the server at ${API_URL}.\n\nMake sure the backend is running on your computer:\n\npython3 -m uvicorn backend.main:app --reload --host 0.0.0.0 --port 8000`
+      );
       setScreen("home");
     } finally {
       setLoading(false);
