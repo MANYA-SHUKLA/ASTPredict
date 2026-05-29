@@ -188,7 +188,7 @@ curl -X POST http://localhost:8000/predict \
 | Model path | `backend/main.py` → `MODEL_PATH` | `../best.pt` |
 | Confidence threshold | `backend/main.py` → `CONFIDENCE_THRESHOLD` | `0.25` |
 | Max detections per image | `backend/main.py` → `MAX_DETECTIONS` | `3000` |
-| API URL (mobile) | `mobile/App.js` → `API_URL` | `http://localhost:8000` |
+| API URL (mobile) | `mobile/App.js` → `getApiUrl()` | Auto-detected from Expo dev server |
 
 ---
 
@@ -315,9 +315,10 @@ npm install react-devtools-core@6.1.5
 
 ### Mobile: "Connection Error" / could not reach server
 
-- Confirm the backend is running: `python3 -m uvicorn backend.main:app --port 8000`
-- On a physical device, set `API_URL` in `mobile/App.js` to your computer's LAN IP, not `localhost`
+- Confirm the backend is running: `python3 -m uvicorn backend.main:app --reload --host 0.0.0.0 --port 8000`
 - Ensure phone and computer are on the same Wi-Fi network
+- Restart Expo after starting the backend (`npx expo start --clear`) so the app picks up the correct IP
+- The error alert shows the URL the app tried — verify that IP matches your computer
 
 ### Backend: model not found
 
