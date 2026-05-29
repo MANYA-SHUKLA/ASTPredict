@@ -18,19 +18,58 @@ import Constants from "expo-constants";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-function getApiUrl() {
-  const hostUri = Constants.expoConfig?.hostUri;
-  if (hostUri) return `http://${hostUri.split(":")[0]}:8000`;
+const API_PORT = 8000;
+
+function getCandidateHosts() {
+  const hosts = [];
+  const add = (raw) => {
+    if (!raw) return;
+    const host = String(raw).split(":")[0];
+    if (host && !hosts.includes(host)) hosts.push(host);
+  };
+
+  add(Constants.expoConfig?.hostUri);
+  add(Constants.expoGoConfig?.debuggerHost);
+  add(Constants.manifest?.debuggerHost);
 
   const link = Constants.linkingUri || Constants.experienceUrl || "";
   const match = link.match(/^[^:]+:\/\/([^:/]+)/);
-  if (match?.[1]) return `http://${match[1]}:8000`;
+  add(match?.[1]);
 
-  if (Platform.OS === "android") return "http://10.0.2.2:8000";
-  return "http://localhost:8000";
+  if (Platform.OS === "android") add("10.0.2.2");
+  add("localhost");
+
+  return hosts;
 }
 
-const API_URL = getApiUrl();
+let cachedApiUrl = null;
+
+async function resolveApiUrl() {
+  if (cachedApiUrl) return cachedApiUrl;
+
+  const override = process.env.EXPO_PUBLIC_API_URL;
+  if (override) {
+    cachedApiUrl = override.replace(/\/$/, "");
+    return cachedApiUrl;
+  }
+
+  for (const host of getCandidateHosts()) {
+    const url = `http://${host}:${API_PORT}`;
+    try {
+      const res = await fetch(`${url}/health`);
+      if (res.ok) {
+        cachedApiUrl = url;
+        return url;
+      }
+    } catch {
+      // try next candidate
+    }
+  }
+
+  const fallbackHost = getCandidateHosts()[0] || (Platform.OS === "android" ? "10.0.2.2" : "localhost");
+  cachedApiUrl = `http://${fallbackHost}:${API_PORT}`;
+  return cachedApiUrl;
+}
 const { width } = Dimensions.get("window");
 
 // ─── Animated fade+slide wrapper ───────────────────────────────────────────
@@ -128,17 +167,23 @@ export default function App() {
     setLoading(true);
     setResult(null);
     setScreen("result");
+    let apiUrl = null;
     try {
+      apiUrl = await resolveApiUrl();
       const form = new FormData();
       form.append("file", { uri: asset.uri, name: "culture.jpg", type: "image/jpeg" });
-      const res = await fetch(`${API_URL}/predict`, { method: "POST", body: form });
+      const res = await fetch(`${apiUrl}/predict`, { method: "POST", body: form });
       if (!res.ok) throw new Error("Server error");
       setResult(await res.json());
-    } catch {
-      Alert.alert(
-        "Connection Error",
-        `Could not reach the server at ${API_URL}.\n\nMake sure the backend is running on your computer:\n\npython3 -m uvicorn backend.main:app --reload --host 0.0.0.0 --port 8000`
-      );
+    } catch (err) {
+      if (err?.message === "Server error") {
+        Alert.alert("Analysis Error", "The server returned an error. Check the backend terminal for details.");
+      } else {
+        Alert.alert(
+          "Connection Error",
+          `Could not reach the server${apiUrl ? ` at ${apiUrl}` : ""}.\n\nMake sure the backend is running on your computer:\n\nsource venv/bin/activate\npython3 -m uvicorn backend.main:app --reload --host 0.0.0.0 --port 8000\n\nPhone and computer must be on the same Wi-Fi.`
+        );
+      }
       setScreen("home");
     } finally {
       setLoading(false);
