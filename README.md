@@ -117,13 +117,17 @@ flowchart LR
 ```bash
 chmod +x setup.sh
 ./setup.sh
+source venv/bin/activate
 ```
 
 ### 2. Start the backend
 
 ```bash
+source venv/bin/activate
 python3 -m uvicorn backend.main:app --reload --host 0.0.0.0 --port 8000
 ```
+
+> **Note:** Dependencies are installed in `venv/`. Always activate it first (`source venv/bin/activate`) so `python3` finds uvicorn and the other packages.
 
 Verify: open `http://localhost:8000/health` — should return `{"status": "healthy"}`.
 
@@ -315,7 +319,7 @@ npm install react-devtools-core@6.1.5
 
 ### Mobile: "Connection Error" / could not reach server
 
-- Confirm the backend is running: `python3 -m uvicorn backend.main:app --reload --host 0.0.0.0 --port 8000`
+- Confirm the backend is running (with venv activated): `source venv/bin/activate && python3 -m uvicorn backend.main:app --reload --host 0.0.0.0 --port 8000`
 - Ensure phone and computer are on the same Wi-Fi network
 - Restart Expo after starting the backend (`npx expo start --clear`) so the app picks up the correct IP
 - The error alert shows the URL the app tried — verify that IP matches your computer
