@@ -12,7 +12,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 MODEL_PATH = os.path.join(os.path.dirname(__file__), "..", "best.pt")
 CONFIDENCE_THRESHOLD = 0.25
 MAX_DETECTIONS = 3000
