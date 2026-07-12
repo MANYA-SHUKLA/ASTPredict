@@ -17,7 +17,6 @@ import * as ImagePicker from "expo-image-picker";
 import Constants from "expo-constants";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
-
 const API_PORT = 8000;
 
 function getCandidateHosts() {
